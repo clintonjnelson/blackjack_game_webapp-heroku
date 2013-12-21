@@ -14,7 +14,7 @@ This template requires the following IV's:
 <% end %>
 
 <div class='well well-large'>
-  <p> <%= @playername %> currently has: <%= @purse %> </p>
+  <p> <%= @playername %> currently has: $<%= @purse %> </p>
   <p> Enter a bet amount for this round: </p>
   <form action='/bet' method='post'>
     <div class= 'input-prepend input-append'>
