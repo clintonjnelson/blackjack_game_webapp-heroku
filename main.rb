@@ -270,13 +270,11 @@ post '/play/player/stay' do
     when calc_total(@dealercards) > BLACKJACK_VAL
       win("Dealer busted!")
     when calc_total(@dealercards) < calc_total(@playercards)
-      win("")
+      win("You have #{calc_total(@playercards)} points & the dealer has #{calc_total(@dealercards)}")
     when calc_total(@dealercards) > calc_total(@playercards)
-      lose("")
+      lose("The dealer has #{calc_total(@dealercards)}, and you have #{calc_total(@playercards)} points.")
       if session[:purse] == 0
-        gameover("GAME OVER")
-      else
-        @error = "The dealer wins."
+        gameover("The dealer has #{calc_total(@dealercards)}, and you have #{calc_total(@playercards)} points. Dealer wins. GAME OVER")
       end
     else
       tie("")
