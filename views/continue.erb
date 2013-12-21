@@ -1,0 +1,47 @@
+<!--
+  Need these IV's:
+  @playername = session[:playername]
+  @purse = session[:purse]
+-->
+
+<br/>
+<br/>
+
+<h3>
+  <% if @hasleft && (@purse >= 0) %>
+    Welcome Back, <%= @playername %>!
+      <p style='font-size:12px'> (We were wondering why you left in such a hurry.) </p>
+      <br/>
+      <br/>
+
+    Would you like to CONTINUE your game or START OVER?
+    <div>
+      <form action='/bet' method='get'>
+        <button class='btn btn-large btn-success' type='submit'> CONTINUE
+        </button>
+      </form>
+      <span>
+        <form action='/newgame' method='get'>
+          <button class='btn btn-large btn-danger' type='submit'> START OVER
+          </button>
+        </form>
+      </span>
+    </div>
+  <% else %>
+    <p> Would you like to CONTINUE your game or END your game? </p>
+
+    <div class='btn-group'>
+      <form action='/bet' method='get'>
+        <button class='btn btn-large btn-success' type='submit'> CONTINUE </button>
+      </form>
+      <span>
+        <form action='/newgame' method='get'>
+          <!--NEED TO FIX THIS LINE TO REDIRECT PROPERLY TO AN EXIT -->
+          <button class='btn btn-large btn-danger' type='submit'> END </button>
+        </form>
+      </span>
+    </div>
+  <% end %>
+</h3>
+
+

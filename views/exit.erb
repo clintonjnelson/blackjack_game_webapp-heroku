@@ -1,0 +1,13 @@
+<!--
+  Need these IV's:
+  @purse = session[:purse]
+-->
+
+<h5> You escaped out the back door
+  <% if @purse == (0 || nil) %>
+    with nothing more than the clothes on your back.
+    Maybe gambling is not your thing...
+  <% else @purse > 0 %>
+    with $<%= @purse %>!
+  <% end %>
+</h5>

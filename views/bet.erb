@@ -1,0 +1,36 @@
+<!--
+This template requires the following IV's:
+  @Error (Layout)
+  @round
+  @purse
+  @playername
+-->
+
+<!-- Round needs +1 because not cycled until /play -->
+<h3> Betting Time -- Round  <%= @round+1 %> </h3>
+
+<% 3.times do %>
+  <br/>
+<% end %>
+
+<div class='well well-large'>
+  <p> <%= @playername %> currently has: <%= @purse %> </p>
+  <p> Enter a bet amount for this round: </p>
+  <form action='/bet' method='post'>
+    <div class= 'input-prepend input-append'>
+      <span class='add-on'> $ </span>
+      <input class='span2' id='appendedPrependedInput' type='text' name='bet'>
+      <span> <button class='btn' type='submit'> Bet </button> </span>
+    </div>
+  </form>
+</div>
+
+<% 4.times do %>
+  <br/>
+<% end %>
+
+<p style='font-size:14px'> (I'm outta here...)
+  <form action='/exit' method='get'>
+    <button class='btn btn-danger btn-mini' type='submit' > (run) </button>
+  </form>
+</p>

@@ -1,0 +1,60 @@
+img.card_image {
+  -moz-transform: scale(0.6);
+  -webkit-transform: scale(0.6);
+  transform: scale(0.6);
+  margin: 0px, 0px, 0px, 0px;
+  border: solid;
+  border-color: black;
+}
+
+form.inlinebtn {
+  position: relative;
+  float: left;
+  margin-right: 5px;
+}
+
+
+form#leavebtn {
+/* I had the hardest time getting this to align with the other button.
+   I know it's because of the button/input above, but I still couldn't
+   find a good way to make it happen without absolute positioning of it.
+*/
+  position: absolute;
+  left: 120px;
+  top: 188px;
+}
+
+div.playerbox {
+clear: left;
+}
+
+form.replaybetbtns {
+  float: left;
+}
+
+div.cards {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  display: inline-block;
+  text-align: center;
+}
+
+div#square {
+  background-color: white;
+  width: 1000px;
+  height: 800px;
+  position: absolute;
+}
+
+div#circle {
+  border-radius: 50%;
+  background-color: green;
+  position: relative;
+  height: 800px;
+  border: solid;
+  border-width: 15px;
+  border-color: #8B4513;
+}
+
+
