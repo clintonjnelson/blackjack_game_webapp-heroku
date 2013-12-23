@@ -14,22 +14,19 @@ form.inlinebtn {
 }
 
 
-form#leavebtn {
-/* I had the hardest time getting this to align with the other button.
-   I know it's because of the button/input above, but I still couldn't
-   find a good way to make it happen without absolute positioning of it.
-*/
-  position: absolute;
-  left: 120px;
-  top: 188px;
+form#leaveform {
+  float: right;
+  margin-right: 5px;
 }
 
 div.playerbox {
-clear: left;
+  clear: left;
 }
 
-form.replaybetbtns {
+div.replaybetbtns {
   float: left;
+  width: 500px;
+  height: 80px;
 }
 
 div.cards {

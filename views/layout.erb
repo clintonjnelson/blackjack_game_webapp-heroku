@@ -57,13 +57,13 @@ see if bet update placeholder works, inputs, button to redirect...
             <button class='btn btn-success' type='submit'>
               <i class='icon-repeat'></i> Play!
             </button>
-          </form>
-        <% end %>
 
-        <form id='leavebtn' action='/exit' method='get'>
-          <button class='btn btn-danger' type='submit'>
-            <i class='icon-remove'></i> Leave
-          </button>
+            <% end %>
+            <form id='leaveform' action='/exit' method='get'>
+              <button id='leavebtn' class='btn btn-danger' type='submit'>
+                <i class='icon-remove'></i> Leave
+              </button>
+            </form>
         </form>
       </div>
     <% end %>

@@ -1,7 +1,8 @@
 # Blackjack Web Application for Tealeaf Academy Course 1 - Week 3
 # Version 1.0
 # Author: Clint Nelson
-
+# Github:
+# Heroku:
 
 require 'rubygems'
 require 'sinatra'
