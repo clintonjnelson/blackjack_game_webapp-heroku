@@ -266,7 +266,7 @@ post '/play/player/stay' do
     session[:dealercards] << session[:deck].pop
   end
 
-  #decide game
+  # Decide game
   case
     when calc_total(@dealercards) > BLACKJACK_VAL
       win("Dealer busted!")
