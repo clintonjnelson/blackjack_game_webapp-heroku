@@ -10,115 +10,122 @@ This template requires the following IV's:
   @purse
   @deck
 -->
-
-<div class='playerbox' >
-  <h1> Round #<%= @round %> </h1>
-  <p> <%= "#{@playername}" %>'s' total points: <%= calc_total(@playercards) %> </p>
-  <p> <%= "#{@playername}" %>'s bet: $<%= @bet %> </p>
-  <p> <%= "#{@playername}" %> has a total of $<%= @purse %> </p>
-</div>
-
-
-
-<!-- Hit/Stay Button Control -->
-<div>
-  <% if @hitstay %>
-    <h4> What would you like to do? </h4>
-    <form class='inlinebtn' action='/play/player/hit' method='post'>
-      <button class='btn btn-success' type='submit'>
-        <i class='icon-play'></i> Hit
-      </button>
-    </form>
-    <form class='inlinebtn' action='/play/player/stay' method='post'>
-      <button class='btn btn-warning' type='submit'>
-        <i class='icon-stop'></i> Stay
-      </button>
-    </form>
-  <% else %>
-    <h4> Dealer's Turn </h4>
-    <form class='inlinebtn'>
-      <button class='btn' disabled>
-        <i class='icon-play'></i> Hit
-      </button>
-    </form>
-    <form class='inlinebtn'>
-      <button class='btn' disabled>
-        <i class='icon-stop'></i> Stay
-      </button>
-    </form>
-  <% end %>
-</div>
-
-<% 3.times do %>
-  <br/>
+<%if @loser %>
+  <div class="alert alert-error">
+    <%= @loser %>
+    <% if @gameover %>
+      <form action="/newgame">
+        <button class='submit'>Play Again</button>
+      </form>
+    <% end %>
+  </div>
+<% elsif @winner %>
+  <div class="alert alert-success">
+    <%= @winner %>
+  </div>
 <% end %>
 
-<div id="square">
-  <div id='circle'>
-    <div class='cards'>
-      <h4> <%= @playername %>, your cards are:</h4>
-      <% @playercards.each do |card| %>
-        <%= card_image(card) %>
-      <% end %>
-    </div>
-   <p></p>
-      <!-- Show all of dealer's card, unless it's before the player's turn is over -->
-    <div class='cards'>
-      <h4> Dealer's cards are:</h4>
-      <% if @playerturn %>
-        <img src='/images/cards/cover.jpg' class='card_image'/>
-        <% @dealercards[1..-1].each do |card| %>
+<!-- Play again & bet -->
+<% if @playagain %>
+  <h4> Play again? </h4>
+  <div class='replaybetbtns' >
+  <!-- Verify if have bet amount -->
+    <% if @bet > @purse %>
+      <form class='inlinebtn' action='/bet' method='post'>
+        <p> Bet amount:
+           <input type='text' name='bet' placeholder="New bet:"/>
+        </p>
+        <button class='btn btn-success' type='submit'>
+          <i class='icon-repeat'></i> Play!
+        </button>
+      </form>
+    <% else %>
+      <form class='inlinebtn' action="/bet" method="post">
+        <p> Bet amount:
+          <input type='text' name='bet' placeholder="New bet:">
+        </p>
+        <button class='btn btn-success' type='submit'>
+          <i class='icon-repeat'></i> Play!
+        </button>
+
+        <% end %>
+        <form id='leaveform' action='/exit' method='get'>
+          <button id='leavebtn' class='btn btn-danger' type='submit'>
+            <i class='icon-remove'></i> Leave
+          </button>
+        </form>
+    </form>
+  </div>
+<% end %>
+
+<div id='play_container'>
+  <div class='playerbox' >
+    <h1> Round #<%= @round %> </h1>
+    <p> <%= "#{@playername}" %>'s' total points: <%= calc_total(@playercards) %> </p>
+    <p> <%= "#{@playername}" %>'s bet: $<%= @bet %> </p>
+    <p> <%= "#{@playername}" %> has a total of $<%= @purse %> </p>
+  </div>
+
+
+
+  <!-- Hit/Stay Button Control -->
+  <div>
+    <% if @hitstay %>
+      <h4> What would you like to do? </h4>
+      <form id='hitbutton' class='inlinebtn' action='/play/player/hit' method='post'>
+        <button class='btn btn-success' type='submit'>
+          <i class='icon-play'></i> Hit
+        </button>
+      </form>
+      <form id='staybutton' class='inlinebtn' action='/play/player/stay' method='post'>
+        <button class='btn btn-warning' type='submit'>
+          <i class='icon-stop'></i> Stay
+        </button>
+      </form>
+    <% else %>
+      <h4> Dealer's Turn </h4>
+      <form class='inlinebtn'>
+        <button class='btn' disabled>
+          <i class='icon-play'></i> Hit
+        </button>
+      </form>
+      <form class='inlinebtn'>
+        <button class='btn' disabled>
+          <i class='icon-stop'></i> Stay
+        </button>
+      </form>
+    <% end %>
+  </div>
+
+  <% 3.times do %>
+    <br/>
+  <% end %>
+
+  <div id="square">
+    <div id='circle'>
+      <div class='cards'>
+        <h4> <%= @playername %>, your cards are:</h4>
+        <% @playercards.each do |card| %>
           <%= card_image(card) %>
         <% end %>
-        <p> Dealer's visible points: <%= calc_total(@dealercards[1..-1]) %></p>
-      <% else %>
-        <% @dealercards.each do |card| %>
-          <%= card_image(card) %>
+      </div>
+     <p></p>
+        <!-- Show all of dealer's card, unless it's before the player's turn is over -->
+      <div class='cards'>
+        <h4> Dealer's cards are:</h4>
+        <% if @playerturn %>
+          <img src='/images/cards/cover.jpg' class='card_image'/>
+          <% @dealercards[1..-1].each do |card| %>
+            <%= card_image(card) %>
+          <% end %>
+          <p> Dealer's visible points: <%= calc_total(@dealercards[1..-1]) %></p>
+        <% else %>
+          <% @dealercards.each do |card| %>
+            <%= card_image(card) %>
+          <% end %>
+          <p> Dealer's total points: <%= calc_total(@dealercards) %></p>
         <% end %>
-        <p> Dealer's total points: <%= calc_total(@dealercards) %></p>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

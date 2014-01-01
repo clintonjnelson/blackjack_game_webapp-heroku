@@ -2,9 +2,11 @@
 <html>
   <head>
     <title>Blackjack Web App (v1.0)</title>
-    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/application.css">
-  </head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/application.css"/>
+    <script src="/application.js"></script>
+    </head>
   <body style="padding-top: 50px;">
 
     <div class="navbar navbar-fixed-top">
@@ -32,39 +34,6 @@ see if bet update placeholder works, inputs, button to redirect...
     <% elsif @success %>
       <div class="alert alert-success">
         <%= @success %>
-      </div>
-    <% end %>
-
-    <!-- Play again & bet -->
-    <% if @playagain %>
-      <h4> Play again? </h4>
-      <div class='replaybetbtns' >
-      <!-- Verify if have bet amount -->
-        <% if @bet > @purse %>
-          <form class='inlinebtn' action='/bet' method='post'>
-            <p> Bet amount:
-               <input type='text' name='bet' placeholder="New bet:"/>
-            </p>
-            <button class='btn btn-success' type='submit'>
-              <i class='icon-repeat'></i> Play!
-            </button>
-          </form>
-        <% else %>
-          <form class='inlinebtn' action="/bet" method="post">
-            <p> Bet amount:
-              <input type='text' name='bet' placeholder="New bet:">
-            </p>
-            <button class='btn btn-success' type='submit'>
-              <i class='icon-repeat'></i> Play!
-            </button>
-
-            <% end %>
-            <form id='leaveform' action='/exit' method='get'>
-              <button id='leavebtn' class='btn btn-danger' type='submit'>
-                <i class='icon-remove'></i> Leave
-              </button>
-            </form>
-        </form>
       </div>
     <% end %>
     <%= yield %>

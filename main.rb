@@ -70,10 +70,10 @@ helpers do
   def win(msg, bkjk = false)
     if bkjk
       session[:purse] += (1.5*session[:bet]).to_i
-      @success = "You hit BLACKJACK! Payout is 3:2!"
+      @winner = "You hit BLACKJACK! Payout is 3:2!"
     else
       session[:purse] += session[:bet]
-      @success = "#{msg} You WIN the round & $#{@bet}!"
+      @winner = "#{msg} You WIN the round & $#{@bet}!"
     end
 
     session[:current] = false
@@ -90,37 +90,32 @@ helpers do
     session[:current] = false
     @hitstay = false
     @playerturn = false
-    @error = "#{msg} The dealer wins."
+    @loser = "#{msg} The dealer wins."
   end
 
   def tie(msg)
     session[:current] = false
     @hitstay = false
     @playerturn = false
-    @success = "You tie & keep your bet!"
+    @winner = "#{msg} You tie & keep your bet!"
   end
 
   def gameover(msg)
-    @error = "#{msg}"
+    @loser = "#{msg}"
     @gameover = true
   end
 end
 
 
 
-
+#################### ROUTES ######################
+#------------- ROOT DIRECTORY -----------
 before do
   @playerturn = true
   @hitstay = true
   @playgain = false
 end
 
-# Unless this approach is "best-practice"
-# Can someone let me know how to do this with conditionals on the 'gets'
-# instead of doing it with if statements nested in a before statement?
-
-#################### ROUTES ######################
-#------------- ROOT DIRECTORY -----------
 before '/' do
   (session[:hasleft] || session[:purse])? (redirect '/continue') : (redirect '/newgame')
   session[:playername].nil? ? (redirect '/newgame') : (redirect '/continue')
@@ -151,6 +146,10 @@ post '/newgame' do
 end
 
 #------------- CONTINUE GAME -----------
+before '/continue' do
+  redirect '/play' if session[:current]
+end
+
 get '/continue' do
   @hasleft = session[:hasleft]
   load_instvars
@@ -249,7 +248,7 @@ post '/play/player/hit' do
     end
   end
 
-  erb :play
+  erb :play, layout: false
 end
 
 #-------------- PLAYER STAY (DEALER TURN) ---
@@ -278,7 +277,7 @@ post '/play/player/stay' do
         gameover("The dealer has #{calc_total(@dealercards)} points, and you have #{calc_total(@playercards)} points. Dealer wins. GAME OVER")
       end
     else
-      tie("")
+      tie("The dealer has #{calc_total(@dealercards)} points, and you have #{calc_total(@playercards)} points.")
   end
 
   # Play again
@@ -288,7 +287,7 @@ post '/play/player/stay' do
     @playagain = true
   end
 
-  erb :play
+  erb :play, layout: false
 end
 
 get '/exit' do
